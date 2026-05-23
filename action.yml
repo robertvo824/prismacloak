@@ -1,0 +1,42 @@
+name: PrismaCloak
+
+description: Verify your Prisma shadow schema is safe for LLM context
+
+inputs:
+  schema:
+    description: Path to schema.prisma or schema directory
+    required: true
+  shadow:
+    description: Path to shadow schema (optional, auto-detected)
+    required: false
+  map-file:
+    description: Path to prismacloak.map.json (optional, auto-detected)
+    required: false
+  version:
+    description: PrismaCloak version to install
+    required: false
+    default: "0.1.0"
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install PrismaCloak
+      shell: bash
+      run: npm install -g prismacloak@${{ inputs.version }}
+
+    - name: Verify shadow schema
+      shell: bash
+      run: |
+        CMD="prismacloak check --schema ${{ inputs.schema }}"
+        if [ -n "${{ inputs.shadow }}" ]; then
+          CMD="$CMD --shadow ${{ inputs.shadow }}"
+        fi
+        if [ -n "${{ inputs.map-file }}" ]; then
+          CMD="$CMD --map-file ${{ inputs.map-file }}"
+        fi
+        eval "$CMD"

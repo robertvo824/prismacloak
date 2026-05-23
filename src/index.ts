@@ -1,0 +1,12 @@
+export { runCheck } from "./commands/check.js";
+export { runCloak } from "./commands/cloak.js";
+export { runDemo } from "./commands/demo.js";
+export { runInspect } from "./commands/inspect.js";
+export { runReveal, runTranslate } from "./commands/transform.js";
+export { checkShadowSchema } from "./core/checker.js";
+export { buildCloakMap } from "./core/mapper.js";
+export { loadSchema } from "./core/parser.js";
+export { redactSchema, defaultMapPath, defaultShadowPath } from "./core/redactor.js";
+export { transformText, loadCloakMap } from "./core/transformer.js";
+export type { CloakMap, Direction } from "./core/types.js";
+export type { CheckResult } from "./core/checker.js";

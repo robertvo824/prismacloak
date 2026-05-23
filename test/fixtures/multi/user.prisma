@@ -1,0 +1,16 @@
+model UserAccount {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  sessions UserSession[]
+
+  @@map("user_accounts")
+}
+
+model UserSession {
+  id         Int         @id @default(autoincrement())
+  token_hash String      @unique @map("token_hash")
+  user_id    Int
+  user       UserAccount @relation(fields: [user_id], references: [id])
+
+  @@map("user_sessions")
+}

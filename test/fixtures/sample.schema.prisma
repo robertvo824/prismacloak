@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://admin:supersecret@prod-db.internal:5432/patient_platform"
+}
+
+enum PatientStatus {
+  ACTIVE
+  DISCHARGED
+  DECEASED
+}
+
+model PatientRecord {
+  id                  Int            @id @default(autoincrement())
+  ssn_hash            String         @unique @map("ssn_hash")
+  patient_diagnosis_id Int
+  status              PatientStatus  @default(ACTIVE)
+  diagnosis           Diagnosis      @relation(fields: [patient_diagnosis_id], references: [id])
+  claims              InsuranceClaim[]
+
+  @@map("patient_records")
+}
+
+model Diagnosis {
+  id          Int             @id @default(autoincrement())
+  icd_code    String          @unique
+  description String
+  patients    PatientRecord[]
+
+  @@map("diagnoses")
+}
+
+model InsuranceClaim {
+  id              Int           @id @default(autoincrement())
+  claim_amount    Decimal
+  patient_id      Int
+  patient         PatientRecord @relation(fields: [patient_id], references: [id])
+
+  @@map("insurance_claims")
+}
