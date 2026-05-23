@@ -31,7 +31,8 @@ No servers. No API keys. Nothing leaves your laptop unless you paste the shadow 
 ## Start here
 
 ```bash
-cd /Users/bobvo/dev/prismacloak
+git clone https://github.com/robertvo824/prismacloak.git
+cd prismacloak
 npm install
 npm run build
 node dist/cli.js demo
@@ -39,10 +40,24 @@ node dist/cli.js demo
 
 The `demo` command walks through the entire workflow with a sample healthcare schema.
 
-## Install globally (optional)
+## Install without npm publish
+
+Until the package is on npm, install directly from GitHub:
 
 ```bash
-npm link
+# One-liner (requires Node 18+)
+npx github:robertvo824/prismacloak demo
+
+# Or install globally from GitHub
+npm install -g github:robertvo824/prismacloak
+prismacloak demo
+```
+
+Or clone and link locally:
+
+```bash
+git clone https://github.com/robertvo824/prismacloak.git
+cd prismacloak && npm install && npm run build && npm link
 prismacloak demo
 ```
 
